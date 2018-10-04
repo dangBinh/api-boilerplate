@@ -11,7 +11,7 @@ type storageCRUD interface {
 	ByID()
 	List()
 	Create(interface{})
-	Update()
+	Update(interface{})
 	Delete()
 }
 
@@ -39,12 +39,12 @@ func (s *storageImpl) List() {
 
 }
 
-func (s *storageImpl) Create(obj interface{}) {
-	s.db.Create(obj)
+func (s *storageImpl) Create(data interface{}) {
+	s.db.Create(data)
 }
 
-func (s *storageImpl) Update() {
-
+func (s *storageImpl) Update(data interface{}) {
+	s.db.Save(data)
 }
 
 func (s *storageImpl) Delete() {

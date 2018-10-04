@@ -1,13 +1,24 @@
 package handler
 
-// type Handler interface {
-// 	Store(w http.ResponseWriter, r *http.Request)
-// }
+import (
+	"api-boilerplate/storage"
+)
 
-// type handlerImpl struct {
-// 	bookingDAO storage.BookingStorage
-// }
+// Handler ...
+type Handler interface {
+	BookingHandler
+	CustomerHandler
+}
 
-// func NewHandler() Handler {
-// 	return &handlerImpl{bookingDAO: storage.NewBookingStorage()}
-// }
+type handlerImpl struct {
+	*bookingHandlerImpl
+	*customerHandlerImpl
+}
+
+// NewHandler ...
+func NewHandler() Handler {
+	return handlerImpl{
+		&bookingHandlerImpl{bookingDAO: storage.NewBookingStorage()},
+		&customerHandlerImpl{customerDAO: storage.NewCustomerStorage()},
+	}
+}

@@ -8,20 +8,18 @@ import (
 	"net/http"
 )
 
-type Handler interface {
-	StoreBooking(w http.ResponseWriter, r *http.Request)
+// BookingHandler ...
+type BookingHandler interface {
+	CreateBooking(w http.ResponseWriter, r *http.Request)
+	UpdateBooking(w http.ResponseWriter, r *http.Request)
 }
 
-type handlerImpl struct {
+type bookingHandlerImpl struct {
 	bookingDAO storage.BookingStorage
 }
 
-func NewHandler() Handler {
-	return &handlerImpl{bookingDAO: storage.NewBookingStorage()}
-}
-
-// StoreBooking ...
-func (h *handlerImpl) StoreBooking(w http.ResponseWriter, r *http.Request) {
+// CreateBooking ...
+func (h *bookingHandlerImpl) CreateBooking(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		panic(err)
@@ -33,7 +31,26 @@ func (h *handlerImpl) StoreBooking(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	// err = h.bookingDAO.CreateBooking(&booking)
 	h.bookingDAO.Create(&booking)
-	fmt.Println(err)
+	w.WriteHeader(200)
+	w.Write([]byte("Successfully create booking"))
+}
+
+// UpdateBooking ...
+func (h *bookingHandlerImpl) UpdateBooking(w http.ResponseWriter, r *http.Request) {
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	var booking storage.Booking
+	err = json.Unmarshal(body, &booking)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%v\n", booking)
+	h.bookingDAO.Update(&booking)
+	w.WriteHeader(200)
+	w.Write([]byte("Successfully update booking"))
 }

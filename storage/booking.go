@@ -1,9 +1,5 @@
 package storage
 
-import (
-	"fmt"
-)
-
 //go:generate mockery -case underscore -name BookingStorage -inpkg
 
 // Booking ...
@@ -16,10 +12,10 @@ type Booking struct {
 	Paid     int    `json:"paid"`
 }
 
-// BookingStorage interface
+// BookingStorage ...
 type BookingStorage interface {
 	storageCRUD
-	CreateBooking(booking *Booking) error
+	// CreateBooking(booking *Booking) error
 }
 
 type bookingStorageImpl struct {
@@ -36,8 +32,8 @@ func NewBookingStorage() BookingStorage {
 	return &bookingStorageImpl{pkgDAO}
 }
 
-func (s *bookingStorageImpl) CreateBooking(booking *Booking) error {
-	fmt.Printf("%v \n", booking)
-	s.Create(booking)
-	return nil
-}
+// func (s *bookingStorageImpl) CreateBooking(booking *Booking) error {
+// 	fmt.Printf("%v \n", booking)
+// 	s.Create(booking)
+// 	return nil
+// }
