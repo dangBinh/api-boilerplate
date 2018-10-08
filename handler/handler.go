@@ -2,6 +2,9 @@ package handler
 
 import (
 	"api-boilerplate/storage"
+	"encoding/json"
+	"io"
+	"io/ioutil"
 )
 
 // Handler ...
@@ -20,5 +23,17 @@ func NewHandler() Handler {
 	return handlerImpl{
 		&bookingHandlerImpl{bookingDAO: storage.NewBookingStorage()},
 		&customerHandlerImpl{customerDAO: storage.NewCustomerStorage()},
+	}
+}
+
+func getBody(o interface{}, readClose io.ReadCloser) {
+	body, err := ioutil.ReadAll(readClose)
+	if err != nil {
+		panic(err)
+	}
+
+	err = json.Unmarshal(body, o)
+	if err != nil {
+		panic(err)
 	}
 }

@@ -23,7 +23,9 @@ func NewRouter() *chi.Mux {
 
 	r.Post("/booking", h.CreateBooking)
 	r.Put("/booking/{id}", h.UpdateBooking)
+	r.Get("/booking/{id}", h.DetailBooking)
 
 	r.Post("/customer", h.CreateCustomer)
+
 	return r
 }

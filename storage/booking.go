@@ -15,7 +15,6 @@ type Booking struct {
 // BookingStorage ...
 type BookingStorage interface {
 	storageCRUD
-	// CreateBooking(booking *Booking) error
 }
 
 type bookingStorageImpl struct {
@@ -31,9 +30,3 @@ func (m Booking) TableName() string {
 func NewBookingStorage() BookingStorage {
 	return &bookingStorageImpl{pkgDAO}
 }
-
-// func (s *bookingStorageImpl) CreateBooking(booking *Booking) error {
-// 	fmt.Printf("%v \n", booking)
-// 	s.Create(booking)
-// 	return nil
-// }

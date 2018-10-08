@@ -8,16 +8,27 @@ type MockBookingStorage struct {
 	mock.Mock
 }
 
-// CreateBooking provides a mock function with given fields: booking
-func (_m *MockBookingStorage) CreateBooking(booking *Booking) error {
-	ret := _m.Called(booking)
+// ByID provides a mock function with given fields:
+func (_m *MockBookingStorage) ByID() {
+	_m.Called()
+}
 
-	var r0 error
-	if rf, ok := ret.Get(0).(func(*Booking) error); ok {
-		r0 = rf(booking)
-	} else {
-		r0 = ret.Error(0)
-	}
+// Create provides a mock function with given fields: _a0
+func (_m *MockBookingStorage) Create(_a0 interface{}) {
+	_m.Called(_a0)
+}
 
-	return r0
+// Delete provides a mock function with given fields:
+func (_m *MockBookingStorage) Delete() {
+	_m.Called()
+}
+
+// List provides a mock function with given fields:
+func (_m *MockBookingStorage) List() {
+	_m.Called()
+}
+
+// Update provides a mock function with given fields: _a0
+func (_m *MockBookingStorage) Update(_a0 interface{}) {
+	_m.Called(_a0)
 }

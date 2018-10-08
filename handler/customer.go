@@ -2,8 +2,6 @@ package handler
 
 import (
 	"api-boilerplate/storage"
-	"encoding/json"
-	"io/ioutil"
 	"net/http"
 )
 
@@ -17,18 +15,14 @@ type customerHandlerImpl struct {
 }
 
 func (h *customerHandlerImpl) CreateCustomer(w http.ResponseWriter, r *http.Request) {
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		panic(err)
-	}
-
 	var customer storage.Customer
-	err = json.Unmarshal(body, &customer)
-	if err != nil {
-		panic(err)
-	}
+	getBody(customer, r.Body)
 
 	h.customerDAO.Create(&customer)
 	w.WriteHeader(200)
 	w.Write([]byte("Successfully create customer"))
+}
+
+func (h *customerHandlerImpl) Update(w http.ResponseWriter, r *http.Request) {
+
 }

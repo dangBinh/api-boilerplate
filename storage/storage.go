@@ -8,10 +8,10 @@ import (
 )
 
 type storageCRUD interface {
-	ByID()
+	ByID(int) (interface{}, error)
 	List()
-	Create(interface{})
-	Update(interface{})
+	Create(interface{}) error
+	Update(interface{}) error
 	Delete()
 }
 
@@ -31,20 +31,32 @@ func init() {
 	pkgDAO = &storageImpl{db}
 }
 
-func (s *storageImpl) ByID() {
-
+func (s *storageImpl) ByID(id int) (obj interface{}, err error) {
+	dbc := s.db.First(&obj, id)
+	if dbc.Error != nil {
+		return nil, dbc.Error
+	}
+	return obj, nil
 }
 
 func (s *storageImpl) List() {
 
 }
 
-func (s *storageImpl) Create(data interface{}) {
-	s.db.Create(data)
+func (s *storageImpl) Create(data interface{}) error {
+	dbc := s.db.Create(data)
+	if dbc.Error != nil {
+		return dbc.Error
+	}
+	return nil
 }
 
-func (s *storageImpl) Update(data interface{}) {
-	s.db.Save(data)
+func (s *storageImpl) Update(data interface{}) error {
+	dbc := s.db.Save(data)
+	if dbc.Error != nil {
+		return dbc.Error
+	}
+	return nil
 }
 
 func (s *storageImpl) Delete() {
